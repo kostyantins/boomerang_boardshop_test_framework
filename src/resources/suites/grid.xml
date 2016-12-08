@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Parallel test" verbose="1" parallel="tests" thread-count="4">
+
+    <test name="UP test 01">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="46"/>
+        <parameter name="platform" value="mac"/>
+        <classes>
+            <class name="project.tests.HomePageLogoExistTest">
+                <methods>
+                    <include name="test"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="UP test 02">
+        <parameter name="browser" value="firefox"/>
+        <parameter name="version" value="46"/>
+        <parameter name="platform" value="mac"/>
+        <classes>
+            <class name="project.tests.HomePageClockExistTest">
+                <methods>
+                    <include name="test"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="UP test Chrome 01">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="43"/>
+        <parameter name="platform" value="mac"/>
+        <classes>
+            <class name="project.tests.HomePageLogoExistTest">
+                <methods>
+                    <include name="test"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="UP test Chrome 02">
+        <parameter name="browser" value="chrome"/>
+        <parameter name="version" value="43"/>
+        <parameter name="platform" value="mac"/>
+        <classes>
+            <class name="project.tests.HomePageClockExistTest">
+                <methods>
+                    <include name="test"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
