@@ -3,22 +3,17 @@
 <suite name="Smoke Suite">
     <test name="Smoke Tests">
         <classes>
-            <class name="project.tests.NavigationTest">
-                <methods>
-                    <include name="testUserOfficePage"/>
-                    <include name="testAboutUsPage"/>
-                </methods>
-            </class>
-            <class name="project.tests.HomePageLogoExistTest">
-                <methods>
-                    <include name="testHomePageLogoExist"/>
-                </methods>
-            </class>
-            <class name="project.tests.ValidUserLogInTest">
-                <methods>
-                    <include name="testValidUserLogIn"/>
-                </methods>
-            </class>
+            <class name="project.tests.LogoExistTest"/>
+            <!--<class name="project.tests.HomePageLogoExistTest">-->
+                <!--<methods>-->
+                    <!--<include name="testHomePageLogoExist"/>-->
+                <!--</methods>-->
+            <!--</class>-->
+            <!--<class name="project.tests.ValidUserLogInTest">-->
+                <!--<methods>-->
+                    <!--<include name="testValidUserLogIn"/>-->
+                <!--</methods>-->
+            <!--</class>-->
         </classes>
     </test>
 </suite>

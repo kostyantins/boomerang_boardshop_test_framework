@@ -2,14 +2,12 @@ package project.utils;
 
 import com.google.common.collect.Ordering;
 import org.openqa.selenium.WebElement;
-import project.elements.Orderliness;
 import project.enums.OrderLine;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static project.elements.Orderliness.DESCENT;
 import static project.enums.OrderLine.DESCENDANT;
 
 public final class Sort {

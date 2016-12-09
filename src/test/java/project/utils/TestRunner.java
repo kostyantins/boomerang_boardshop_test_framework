@@ -1,31 +1,13 @@
 package project.utils;
 
-import lombok.Getter;
-import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
-import project.pageobjects.*;
 
 import java.net.MalformedURLException;
 
 public class TestRunner {
-
-    protected HomePage homePage;
-    protected AboutUsPage aboutUsPage;
-    protected AccessoriesPage accessoriesPage;
-    protected DeliveryAndPaymentPage deliveryAndPaymentPage;
-    protected GuarantyPage guarantyPage;
-    protected ManClothesPage manClothesPage;
-    protected MyProfilePage myProfilePage;
-    protected RegistrationPage registrationPage;
-    protected ShopsPage shopsPage;
-    protected UserOfficePage userOfficePage;
-    protected WomanClothesPage womanClothesPage;
-
-    @Getter
-    protected WebDriver driver;
 
     @Parameters({"browser", "version", "platform"})
     @BeforeMethod
@@ -39,18 +21,14 @@ public class TestRunner {
 
         webDriverFactory.setDriver(browser, version, platform);
 
-        driver = webDriverFactory.getDriver();
-
-        driver
+        WebDriverFactory.driver
                 .get(homePageUrl);
-
-        homePage = new HomePage(driver);
     }
 
     @AfterMethod
     public final void tarnDown() {
 
-        driver
+        WebDriverFactory.driver
                 .quit();
     }
 }
