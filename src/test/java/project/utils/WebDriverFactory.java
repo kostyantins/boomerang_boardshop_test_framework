@@ -12,13 +12,17 @@ import project.enums.Browsers;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+//TODO Thread Local fo static driver
 
 public class WebDriverFactory {
 
+    private static ThreadLocal<WebDriver> driver;
 
-    public static WebDriver driver;
+    public static WebDriver getDriver() {
+        return driver.get();
+    }
 
-    final void setDriver(final String browser, final String version, final String platform) throws MalformedURLException {
+    static void setDriver(final String browser, final String version, final String platform) throws MalformedURLException {
 
         if (driver == null) {
 
@@ -48,7 +52,7 @@ public class WebDriverFactory {
                 capabilities
                         .setVersion(String.valueOf(version));
 
-                driver = new RemoteWebDriver(new URL(remoteWebDriverUrl), capabilities);
+                //   driver = new RemoteWebDriver(new URL(remoteWebDriverUrl), capabilities);
 
             } else {
 
@@ -57,26 +61,46 @@ public class WebDriverFactory {
                     switch (propertyBrowserTypeEnum) {  //Switching browser if using property
 
                         case CHROME:
-                            System.setProperty(chromeDriver, chromeDriverPath);
-                            driver = new ChromeDriver();
+                            driver = new ThreadLocal<WebDriver>() {
+                                @Override
+                                protected WebDriver initialValue() {
+                                    System.setProperty(chromeDriver, chromeDriverPath);
+                                    return new ChromeDriver();
+                                }
+                            };
                             break;
 
                         default:
                         case FIREFOX:
-                            driver = new FirefoxDriver();
+                            driver = new ThreadLocal<WebDriver>() {
+                                @Override
+                                protected WebDriver initialValue() {
+                                    return new FirefoxDriver();
+                                }
+                            };
                             break;
                     }
                 } else {
                     switch (cmdBrowserTypeEnum) {  //Switching browser if using command line
 
                         case CHROME:
-                            System.setProperty(chromeDriver, chromeDriverPath);
-                            driver = new ChromeDriver();
+                            driver = new ThreadLocal<WebDriver>() {
+                                @Override
+                                protected WebDriver initialValue() {
+                                    System.setProperty(chromeDriver, chromeDriverPath);
+                                    return new ChromeDriver();
+                                }
+                            };
                             break;
 
                         default:
                         case FIREFOX:
-                            driver = new FirefoxDriver();
+                            driver = new ThreadLocal<WebDriver>() {
+                                @Override
+                                protected WebDriver initialValue() {
+                                    return new FirefoxDriver();
+                                }
+                            };
                             break;
                     }
                 }

@@ -3,8 +3,6 @@ package project.flows;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
-import org.testng.Assert;
-import project.utils.WebDriverFactory;
 
 @Getter
 @Setter

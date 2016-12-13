@@ -5,6 +5,9 @@ import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 
+import static project.utils.WebDriverFactory.getDriver;
+import static project.utils.WebDriverFactory.setDriver;
+
 @Listeners({Listener.class})
 public class TestRunner {
 
@@ -16,27 +19,22 @@ public class TestRunner {
 
         final String homePageUrl = PropertiesReader.getProperty("home.page.url");
 
-        final WebDriverFactory webDriverFactory = new WebDriverFactory();
+        setDriver(browser, version, platform);
 
-        webDriverFactory.setDriver(browser, version, platform);
-
-        WebDriverFactory
-                .driver
+        getDriver()
                 .get(homePageUrl);
     }
 
     @AfterMethod
     public final void tarnDown() {
 
-        if (WebDriverFactory.driver != null) {
+        if (getDriver() != null) {
             try {
-                WebDriverFactory
-                        .driver
+                getDriver()
                         .quit();
             } catch (WebDriverException e) {
                 System.out.println("***** CAUGHT EXCEPTION IN DRIVER TEARDOWN *****" + e);
             }
-
         }
     }
 }

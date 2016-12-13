@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static project.utils.WebDriverFactory.getDriver;
 
 
 public final class Wait {
@@ -18,14 +19,14 @@ public final class Wait {
 
     public static  WebElement getPresentElement(By element) {
 
-        return new WebDriverWait(WebDriverFactory.driver, timeout)
+        return new WebDriverWait(getDriver(), timeout)
                 .ignoring(NoSuchElementException.class)
                 .until(ExpectedConditions.presenceOfElementLocated(element));
     }
 
     public static  WebElement getClickableElement(By element) {
 
-        return new WebDriverWait(WebDriverFactory.driver, timeout)
+        return new WebDriverWait(getDriver(), timeout)
                 .ignoring(NoSuchElementException.class)
                 .until(ExpectedConditions.elementToBeClickable(element));
     }

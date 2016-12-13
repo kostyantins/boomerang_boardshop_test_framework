@@ -5,12 +5,12 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import project.utils.Wait;
-import project.utils.WebDriverFactory;
 
 import static org.testng.Assert.assertTrue;
-import static project.utils.WebDriverFactory.driver;
+import static project.utils.WebDriverFactory.getDriver;
 
 public abstract class AbstractFlow {
+
 
     public static WebElement waitElementPresent(final By elementToWait) {
 
@@ -24,7 +24,7 @@ public abstract class AbstractFlow {
 
     public static void isElementDisplayed(final By elementToCheck) {
 
-        final WebElement webElement = driver.findElement(elementToCheck);
+        final WebElement webElement = getDriver().findElement(elementToCheck);
 
         assertTrue(webElement.isDisplayed(), "Element " + elementToCheck + " should be displayed");
     }
@@ -33,7 +33,7 @@ public abstract class AbstractFlow {
 
         waitElementPresent(checkIfCapitaFantasy);
 
-        final WebElement webElement = driver.findElement(checkIfCapitaFantasy);
+        final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
 
         Assert.assertEquals(webElement.getText(), textCapitaFantasy,
                 "Text " + textCapitaFantasy + " should be equals with " + webElement.getText());
@@ -43,7 +43,7 @@ public abstract class AbstractFlow {
 
         waitElementPresent(checkIfCapitaFantasy);
 
-        final WebElement webElement = driver.findElement(checkIfCapitaFantasy);
+        final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
 
         Assert.assertTrue(webElement.getText().contains(textCapitaFantasy),
                 "Text " + textCapitaFantasy + " should be equals with " + webElement.getText());
@@ -53,34 +53,34 @@ public abstract class AbstractFlow {
 
         waitElementClickable(pageToClick);
 
-        WebDriverFactory
-                .driver
+        getDriver()
                 .findElement(pageToClick)
                 .click();
     }
 
+    public static void clear(final By inputToClear) {
 
+
+        getDriver()
+                .findElement(inputToClear)
+                .clear();
+    }
 
     public static void fillInputAs(final String textToFill, final By inputTo) {
 
         waitElementPresent(inputTo);
 
-        WebDriverFactory
-                .driver
-                .findElement(inputTo)
-                .clear();
+        clear(inputTo);
 
-        WebDriverFactory
-                .driver
+        getDriver()
                 .findElement(inputTo)
                 .sendKeys(textToFill);
     }
 
     public static void driverSendEnter(final By element) {
 
-        WebDriverFactory
-                .driver
+        getDriver()
                 .findElement(element)
-                .sendKeys(Keys.ENTER);
+                .sendKeys(Keys.ENTER);   // element.submit()
     }
 }
