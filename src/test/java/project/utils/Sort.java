@@ -1,10 +1,12 @@
 package project.utils;
 
 import com.google.common.collect.Ordering;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import project.enums.OrderLine;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -1,12 +1,11 @@
 package project.utils;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
+import org.openqa.selenium.WebDriverException;
+import org.testng.annotations.*;
 
 import java.net.MalformedURLException;
 
+@Listeners({Listener.class})
 public class TestRunner {
 
     @Parameters({"browser", "version", "platform"})
@@ -21,15 +20,24 @@ public class TestRunner {
 
         webDriverFactory.setDriver(browser, version, platform);
 
-        WebDriverFactory.driver
+        WebDriverFactory
+                .driver
                 .get(homePageUrl);
     }
 
     @AfterMethod
     public final void tarnDown() {
 
-        WebDriverFactory.driver
-                .quit();
+        if (WebDriverFactory.driver != null) {
+            try {
+                WebDriverFactory
+                        .driver
+                        .quit();
+            } catch (WebDriverException e) {
+                System.out.println("***** CAUGHT EXCEPTION IN DRIVER TEARDOWN *****" + e);
+            }
+
+        }
     }
 }
 

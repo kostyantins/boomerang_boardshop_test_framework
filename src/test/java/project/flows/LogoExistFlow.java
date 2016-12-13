@@ -3,15 +3,10 @@ package project.flows;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import project.utils.Wait;
-
-import static org.testng.Assert.assertTrue;
-import static project.utils.WebDriverFactory.driver;
 
 @Getter
 @Setter
-public final class LogoExistFlow {
+public final class LogoExistFlow extends AbstractFlow {
 
     private LogoExistFlow(){};
 
@@ -44,23 +39,17 @@ public final class LogoExistFlow {
         }
 
         @Override
-        public CheckWebElementStep waitWebElement(By waitWebElement) {
+        public CheckWebElementStep waitWebElement(final By webElement) {
 
-            this.waitWebElement = waitWebElement;
-
-            Wait.getPresentElement(waitWebElement);
+            waitElementPresent(webElement);
 
             return this;
         }
 
         @Override
-        public BuildStep isWebElementDisplayed(By checkWebElement) {
+        public BuildStep isWebElementDisplayed(final By elementToCheck) {
 
-            this.isWebElementDisplayed = checkWebElement;
-
-            final WebElement webElement = driver.findElement(LOGO);
-
-            assertTrue(webElement.isDisplayed(), "Home page logo should be displyed");
+            isElementDisplayed(elementToCheck);
 
             return this;
         }
