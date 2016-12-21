@@ -4,11 +4,7 @@
     <test name="Smoke Tests">
         <classes>
             <class name="project.tests.LogoExistTest"/>
-            <!--<class name="project.tests.HomePageLogoExistTest">-->
-                <!--<methods>-->
-                    <!--<include name="testHomePageLogoExist"/>-->
-                <!--</methods>-->
-            <!--</class>-->
+            <class name="project.tests.SnowboardPriceSortTest"/>
             <!--<class name="project.tests.ValidUserLogInTest">-->
                 <!--<methods>-->
                     <!--<include name="testValidUserLogIn"/>-->

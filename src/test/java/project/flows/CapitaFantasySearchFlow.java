@@ -3,6 +3,7 @@ package project.flows;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
+import ru.yandex.qatools.allure.annotations.Step;
 
 @Getter
 @Setter
@@ -11,38 +12,27 @@ public final class CapitaFantasySearchFlow extends AbstractFlow {
     private CapitaFantasySearchFlow() {
     }
 
-    public static final By SNOWBOARD_MENU_LINK = By.xpath("//*[@id='shopkeeper-menu-item-8181']/a");
-    public static final By SNOWBOARD_DESK_LINK = By.xpath("(//*[@id='content']//a)[1]");
+    public static final By SNOWBOARDING_DESK_LINK = By.xpath("(//*[@id='content']//a)[1]");
     public static final By SNOWBOARD_CHECKBOX_LINK = By.xpath("(//*[@id='woocommerce_product_categories-2']//a)[2]");
     public static final By SEARCH_GOODS_INPUT_FIELD = By.id("yith-s");
     public static final By CAPITA_SEARCH_RESULT_LINK = By.xpath("//*[@id='products-grid']//h3/a");
     public static final By CAPITA_FANTASY_HEADER = By.xpath("//*[@id='boomerang_product_height']//h1");
+    public static final String CAPITA_FANTASY = "CAPITA Space Metal Fantasy";
 
-
-    private By clickToSnowboardLink;
-    private By clickToSnowboardCheckboxLink;
+    private By goToSnowboardingPage;
+    private By goToSnowboardPage;
     private By fillInputAs;               //fillSearchGoodsInputField
-    private By submitSearchResult;
-    private By checkIfCapitaFantasy;
 
-    public static interface ClickToSnowboardLinkStep {
-        ClickToSnowboardCheckboxLinkStep clickToSnowboardLink(By clickToSnowboardLink);
+    public static interface GoToSnowboardingPageStep {
+        GoToSnowboardPageStep goToSnowboardingPage(final By goToSnowboardingPage);
     }
 
-    public static interface ClickToSnowboardCheckboxLinkStep {
-        FillInputAsStep clickToSnowboardCheckboxLink(By clickToSnowboardCheckboxLink);
+    public static interface GoToSnowboardPageStep {
+        FillInputAsStep goToSnowboardPage(final By goToSnowboardPage);
     }
 
     public static interface FillInputAsStep {
-        SubmitSearchResultStep fillInput(final String textToFill, By fillInputAs);
-    }
-
-    public static interface SubmitSearchResultStep {
-        CheckIfCapitaFantasyStep submitSearchResult(By submitSearchResult);
-    }
-
-    public static interface CheckIfCapitaFantasyStep {
-        BuildStep checkIfCapitaFantasy(By checkIfCapitaFantasy, String textCapitaFantasy);
+        BuildStep fillInputAs(final String textToFill, final By fillInputAs);
     }
 
     public static interface BuildStep {
@@ -50,66 +40,49 @@ public final class CapitaFantasySearchFlow extends AbstractFlow {
     }
 
 
-    public static class Builder implements ClickToSnowboardLinkStep, ClickToSnowboardCheckboxLinkStep, FillInputAsStep, SubmitSearchResultStep, CheckIfCapitaFantasyStep, BuildStep {
-        private By clickToSnowboardLink;
-        private By clickToSnowboardCheckboxLink;
+    public static class Builder implements GoToSnowboardingPageStep, GoToSnowboardPageStep, FillInputAsStep, BuildStep {
+        private By goToSnowboardingPage;
+        private By goToSnowboardPage;
         private By fillInputAs;
-        private By submitSearchResult;
-        private By checkIfCapitaFantasy;
 
         private Builder() {
         }
 
-        public static ClickToSnowboardLinkStep capitaFantasySearchFlow() {
+        public static GoToSnowboardingPageStep capitaFantasySearchFlow() {
             return new Builder();
         }
 
+        @Step
         @Override
-        public ClickToSnowboardCheckboxLinkStep clickToSnowboardLink(By snowboardLink) {
+        public GoToSnowboardPageStep goToSnowboardingPage(final By snowboardingPage) {
 
-            this.clickToSnowboardLink = snowboardLink;
+            this.goToSnowboardingPage = snowboardingPage;
 
-            clickTo(snowboardLink);
+            clickTo(SNOWBOARDING_DESK_LINK);
 
             return this;
         }
 
+        @Step
         @Override
-        public FillInputAsStep clickToSnowboardCheckboxLink(By snowboardCheckboxLink) {
+        public FillInputAsStep goToSnowboardPage(final By snowboardPage) {
 
-            this.clickToSnowboardCheckboxLink = snowboardCheckboxLink;
+            this.goToSnowboardPage = snowboardPage;
 
-            clickTo(snowboardCheckboxLink);
+            clickTo(SNOWBOARD_CHECKBOX_LINK);
 
             return this;
         }
 
+        @Step
         @Override
-        public SubmitSearchResultStep fillInput(final String textToFill, By fillInputAs) {
+        public BuildStep fillInputAs(final String textToFill, By input) {
 
-            this.fillInputAs = fillInputAs;
+            this.fillInputAs = input;
 
-            fillInputAs(textToFill, fillInputAs);
+            CapitaFantasySearchFlow.fillInputAs(textToFill, input);
 
-            return this;
-        }
-
-        @Override
-        public CheckIfCapitaFantasyStep submitSearchResult(By submitSearchResult) {
-
-            this.submitSearchResult = submitSearchResult;
-
-            driverSendEnter(submitSearchResult);
-
-            return this;
-        }
-
-        @Override
-        public BuildStep checkIfCapitaFantasy(By checkIfCapitaFantasy, String textCapitaFantasy) {
-
-            this.checkIfCapitaFantasy = checkIfCapitaFantasy;
-
-            isElementContains(checkIfCapitaFantasy, textCapitaFantasy);
+            driverSendEnter(input);
 
             return this;
         }
@@ -117,11 +90,9 @@ public final class CapitaFantasySearchFlow extends AbstractFlow {
         @Override
         public CapitaFantasySearchFlow build() {
             CapitaFantasySearchFlow capitaFantasySearchFlow = new CapitaFantasySearchFlow();
-            capitaFantasySearchFlow.setClickToSnowboardLink(this.clickToSnowboardLink);
-            capitaFantasySearchFlow.setClickToSnowboardCheckboxLink(this.clickToSnowboardCheckboxLink);
+            capitaFantasySearchFlow.setGoToSnowboardingPage(this.goToSnowboardingPage);
+            capitaFantasySearchFlow.setGoToSnowboardPage(this.goToSnowboardPage);
             capitaFantasySearchFlow.setFillInputAs(this.fillInputAs);
-            capitaFantasySearchFlow.setSubmitSearchResult(this.submitSearchResult);
-            capitaFantasySearchFlow.setCheckIfCapitaFantasy(this.checkIfCapitaFantasy);
             return capitaFantasySearchFlow;
         }
     }

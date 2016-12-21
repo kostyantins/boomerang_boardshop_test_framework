@@ -2,6 +2,7 @@ package project.utils;
 
 import org.openqa.selenium.WebDriverException;
 import org.testng.annotations.*;
+import ru.yandex.qatools.allure.annotations.Step;
 
 import java.net.MalformedURLException;
 
@@ -11,6 +12,7 @@ import static project.utils.WebDriverFactory.setDriver;
 @Listeners({Listener.class})
 public class TestRunner {
 
+    @Step
     @Parameters({"browser", "version", "platform"})
     @BeforeMethod
     public final void setUp(@Optional("default") final String browser,
@@ -25,6 +27,7 @@ public class TestRunner {
                 .get(homePageUrl);
     }
 
+    @Step
     @AfterMethod
     public final void tarnDown() {
 

@@ -9,29 +9,18 @@ import project.utils.Wait;
 import static org.testng.Assert.assertTrue;
 import static project.utils.WebDriverFactory.getDriver;
 
-public abstract class AbstractFlow {
+abstract class AbstractFlow {
 
-
-    public static WebElement waitElementPresent(final By elementToWait) {
-
-        return Wait.getPresentElement(elementToWait);
-    }
-
-    public static WebElement waitElementClickable(final By elementToWait) {
-
-        return Wait.getClickableElement(elementToWait);
-    }
-
-    public static void isElementDisplayed(final By elementToCheck) {
+    static void isElementDisplayed(final By elementToCheck) {
 
         final WebElement webElement = getDriver().findElement(elementToCheck);
 
         assertTrue(webElement.isDisplayed(), "Element " + elementToCheck + " should be displayed");
     }
 
-    public static void isElementEquals(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
+    static void isElementEquals(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
 
-        waitElementPresent(checkIfCapitaFantasy);
+        Wait.getPresentElement(checkIfCapitaFantasy);
 
         final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
 
@@ -39,48 +28,48 @@ public abstract class AbstractFlow {
                 "Text " + textCapitaFantasy + " should be equals with " + webElement.getText());
     }
 
-    public static void isElementContains(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
+    static void isElementContains(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
 
-        waitElementPresent(checkIfCapitaFantasy);
+        Wait.getPresentElement(checkIfCapitaFantasy);
 
         final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
 
         Assert.assertTrue(webElement.getText().contains(textCapitaFantasy),
-                "Text " + textCapitaFantasy + " should be equals with " + webElement.getText());
+                "Text " + textCapitaFantasy + " should contains " + webElement.getText());
     }
 
-    public static void clickTo(final By pageToClick) {
+    static void clickTo(final By elementToClick) {
 
-        waitElementClickable(pageToClick);
+        Wait.getClickableElement(elementToClick);
 
         getDriver()
-                .findElement(pageToClick)
+                .findElement(elementToClick)
                 .click();
     }
 
-    public static void clear(final By inputToClear) {
+    static void clear(final By fieldToClear) {
 
 
         getDriver()
-                .findElement(inputToClear)
+                .findElement(fieldToClear)
                 .clear();
     }
 
-    public static void fillInputAs(final String textToFill, final By inputTo) {
+    static void fillInputAs(final String textToFill, final By input) {
 
-        waitElementPresent(inputTo);
+        Wait.getPresentElement(input);
 
-        clear(inputTo);
+        clear(input);
 
         getDriver()
-                .findElement(inputTo)
+                .findElement(input)
                 .sendKeys(textToFill);
     }
 
-    public static void driverSendEnter(final By element) {
+    static void driverSendEnter(final By element) {
 
         getDriver()
                 .findElement(element)
-                .sendKeys(Keys.ENTER);   // element.submit()
+                .sendKeys(Keys.ENTER);
     }
 }
