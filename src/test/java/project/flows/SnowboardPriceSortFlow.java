@@ -7,6 +7,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 
+import static java.awt.SystemColor.window;
+import static jdk.nashorn.internal.objects.NativeFunction.function;
 import static project.utils.WebDriverFactory.getDriver;
 
 @Setter
@@ -16,32 +18,27 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
     private SnowboardPriceSortFlow() {
     }
 
-    public static final By MIN_PRICE_INPUT_FIELD = By.id("min_price");  ////*[@id='woocommerce_price_filter-7']//input[@id='min_price']
+    public static final By MIN_PRICE_INPUT_FIELD = By.id("min_price");
     public static final By MAX_PRICE_INPUT_FIELD = By.id("max_price");
     public static final By MIN_PRICE_RESULT = By.xpath("(//*[@id='woocommerce_price_filter-7']//span)[3]");
     public static final By MAX_PRICE_RESULT = By.xpath("(//*[@id='woocommerce_price_filter-7']//span)[4]");
     public static final String MIN_PRICE = "5000";
     public static final String MAX_PRICE = "10000";
 
-    private By clickToSnowboardLink;
+    private By goToSnowboardingPage;
     private By fillMinPrice;
     private By fillMaxPrice;
-    private By checkFilterResult;
 
-    public static interface ClickToSnowboardLinkStep {
-        FillMinPriceStep clickToSnowboardLink(By clickToSnowboardLink);
+    public static interface GoToSnowboardingPageStep {
+        FillMinPriceStep goToSnowboardingPage(By goToSnowboardingPage);
     }
 
     public static interface FillMinPriceStep {
-        FillMaxPriceStep fillMinPrice(String inputNumber, By fillMinPrice);
+        FillMaxPriceStep fillMinPrice(By fillMinPrice);
     }
 
     public static interface FillMaxPriceStep {
-        CheckFilterResultStep fillMaxPrice(String inputNumber, By fillMaxPrice);
-    }
-
-    public static interface CheckFilterResultStep {
-        BuildStep checkFilterResult(By checkFilterResult, String searchResult);
+        BuildStep fillMaxPrice(By fillMaxPrice);
     }
 
     public static interface BuildStep {
@@ -49,87 +46,60 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
     }
 
 
-    public static class Builder implements ClickToSnowboardLinkStep, FillMinPriceStep, FillMaxPriceStep, CheckFilterResultStep, BuildStep {
-        private By clickToSnowboardLink;
+    public static class Builder implements GoToSnowboardingPageStep, FillMinPriceStep, FillMaxPriceStep, BuildStep {
+        private By goToSnowboardingPage;
         private By fillMinPrice;
         private By fillMaxPrice;
-        private By checkFilterResult;
 
         private Builder() {
         }
 
-        public static ClickToSnowboardLinkStep snowboardPriceSortFlow() {
+        public static GoToSnowboardingPageStep snowboardPriceSortFlow() {
             return new Builder();
         }
 
         @Override
-        public FillMinPriceStep clickToSnowboardLink(By clickToSnowboardLink) {
+        public FillMinPriceStep goToSnowboardingPage(By snowboardingLink) {
 
-            this.clickToSnowboardLink = clickToSnowboardLink;
+            this.goToSnowboardingPage = snowboardingLink;
 
-            clickTo(clickToSnowboardLink);
-
-            return this;
-        }
-
-        @Override
-        public FillMaxPriceStep fillMinPrice(String inputNumber, By fillMinPrice) {
-
-            this.fillMinPrice = fillMinPrice;
-
-//            fillInputAs(inputNumber, fillMinPrice);
-
-            final WebElement element = getDriver().findElement(fillMinPrice);
-//
-//            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style='visible';", element);
-
-//            getDriver().findElement(fillMinPrice).sendKeys(inputNumber);
-
-            final Actions actions = new Actions(getDriver());
-
-            actions
-                    .moveToElement(element)
-                    .click()
-                    .sendKeys(inputNumber)
-                    .build()
-                    .perform();
-
+            clickTo(snowboardingLink);
 
             return this;
         }
 
         @Override
-        public CheckFilterResultStep fillMaxPrice(String inputNumber, By fillMaxPrice) {
+        public FillMaxPriceStep fillMinPrice(By minPriceInput) {
 
-            this.fillMaxPrice = fillMaxPrice;
+            this.fillMinPrice = minPriceInput;
 
-//            fillInputAs(inputNumber, fillMaxPrice);
+            final WebElement element = getDriver().findElement(minPriceInput);
 
-            final WebElement element = getDriver().findElement(fillMaxPrice);
+            ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('min_price').style='display: inline';");
 
-//            final WebElement element = getDriver().findElement(fillMaxPrice);
-//            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].style='visible';", element);
+            element.clear();
 
-//            getDriver().findElement(fillMaxPrice).sendKeys(inputNumber);
+            element.sendKeys(MIN_PRICE);
 
-            final Actions actions = new Actions(getDriver());
-
-            actions
-                    .moveToElement(element)
-                    .click()
-                    .sendKeys(inputNumber)
-                    .build()
-                    .perform();
+            element.submit();
 
             return this;
         }
 
         @Override
-        public BuildStep checkFilterResult(By checkFilterResult, String searchResult) {
+        public BuildStep fillMaxPrice(By maxPriceInput) {
 
-            this.checkFilterResult = checkFilterResult;
+            this.fillMaxPrice = maxPriceInput;
 
-            isElementEquals(checkFilterResult, searchResult);
+            final WebElement element = getDriver().findElement(maxPriceInput);
+
+            ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('max_price').style='display: inline';");
+
+            element.clear();
+
+            element.sendKeys(MAX_PRICE);
+
+            element.submit();
 
             return this;
         }
@@ -137,10 +107,9 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
         @Override
         public SnowboardPriceSortFlow build() {
             SnowboardPriceSortFlow snowboardPriceSortFlow = new SnowboardPriceSortFlow();
-            snowboardPriceSortFlow.setClickToSnowboardLink(this.clickToSnowboardLink);
+            snowboardPriceSortFlow.setGoToSnowboardingPage(this.goToSnowboardingPage);
             snowboardPriceSortFlow.setFillMinPrice(this.fillMinPrice);
             snowboardPriceSortFlow.setFillMaxPrice(this.fillMaxPrice);
-            snowboardPriceSortFlow.setCheckFilterResult(this.checkFilterResult);
             return snowboardPriceSortFlow;
         }
     }

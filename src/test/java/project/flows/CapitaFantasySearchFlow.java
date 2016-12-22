@@ -54,9 +54,9 @@ public final class CapitaFantasySearchFlow extends AbstractFlow {
 
         @Step
         @Override
-        public GoToSnowboardPageStep goToSnowboardingPage(final By snowboardingPage) {
+        public GoToSnowboardPageStep goToSnowboardingPage(final By snowboardingLink) {
 
-            this.goToSnowboardingPage = snowboardingPage;
+            this.goToSnowboardingPage = snowboardingLink;
 
             clickTo(SNOWBOARDING_DESK_LINK);
 
@@ -65,9 +65,9 @@ public final class CapitaFantasySearchFlow extends AbstractFlow {
 
         @Step
         @Override
-        public FillInputAsStep goToSnowboardPage(final By snowboardPage) {
+        public FillInputAsStep goToSnowboardPage(final By snowboardLink) {
 
-            this.goToSnowboardPage = snowboardPage;
+            this.goToSnowboardPage = snowboardLink;
 
             clickTo(SNOWBOARD_CHECKBOX_LINK);
 

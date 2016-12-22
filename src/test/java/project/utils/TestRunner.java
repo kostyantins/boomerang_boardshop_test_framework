@@ -24,6 +24,11 @@ public class TestRunner {
         setDriver(browser, version, platform);
 
         getDriver()
+                .manage()
+                .window()
+                .maximize();
+
+        getDriver()
                 .get(homePageUrl);
     }
 
