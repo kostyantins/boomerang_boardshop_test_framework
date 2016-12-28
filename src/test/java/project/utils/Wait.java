@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static project.utils.WebDriverFactory.getDriver;
 
 
@@ -29,5 +30,12 @@ public final class Wait {
         return new WebDriverWait(getDriver(), timeout)
                 .ignoring(NoSuchElementException.class)
                 .until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    public static  WebElement getVisibleElement(By element) {
+
+        return new WebDriverWait(getDriver(), timeout)
+                .ignoring(NoSuchElementException.class)
+                .until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 }

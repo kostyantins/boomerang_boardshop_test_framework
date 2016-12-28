@@ -26,6 +26,8 @@
         <suite>smoke</suite>
         <allure-testng-adaptor>1.5.0.RC2</allure-testng-adaptor>
         <aspectjweaver>1.8.9</aspectjweaver>
+        <selenide.version>4.2</selenide.version>
+
     </properties>
 
     <build>
@@ -190,6 +192,13 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${assertj-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${selenide.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

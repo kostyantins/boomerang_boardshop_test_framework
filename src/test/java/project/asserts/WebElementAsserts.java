@@ -1,18 +1,25 @@
 package project.asserts;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import project.utils.Wait;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import java.util.List;
+
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
+import static project.utils.Sort.isListElementsContains;
+import static project.utils.Sort.isListElementsEquals;
 import static project.utils.WebDriverFactory.getDriver;
 
 public final class WebElementAsserts {
 
-    protected By actual;
+    private By actual;
 
-    private WebElementAsserts(final By actual) {
+    WebElementAsserts(final By actual) {
         this.actual = actual;
     }
 
@@ -39,7 +46,7 @@ public final class WebElementAsserts {
 
         if (!webElement.isDisplayed()) {
 
-            Assert.fail("Element {" + actual.toString() + "} should be displayed !");
+            Assert.fail("Element {" + actual + "} should be displayed !");
         }
         return this;
     }
@@ -55,9 +62,42 @@ public final class WebElementAsserts {
                 .getText()
                 .contains(elementsText)) {
 
-            Assert.fail("Element's {" + actual.toString() + "} text {" + actual +
+            Assert.fail("Element's {" + actual + "} text {" + actual +
                     "} should contain {" + elementsText + "} !");
         }
         return this;
+    }
+
+    @Step
+    public final WebElementAsserts isEqual(final String elementsText) {
+
+        isNotNull();
+
+        final WebElement webElement = Wait.getPresentElement(actual);
+
+        if (!webElement
+                .getText()
+                .equalsIgnoreCase(elementsText)) {
+
+            Assert.fail("Element's {" + actual + "} text {" + actual +
+                    "} should be equal {" + elementsText + "} !");
+        }
+        return this;
+    }
+
+    @Step
+    public static boolean isListContains(final By listElements, String order) {
+
+        List<WebElement> elementList = getDriver().findElements(listElements);
+
+        return isListElementsContains(elementList, order);
+    }
+
+    @Step
+    public static boolean isListEquals(final By listElements, String order) {
+
+        List<WebElement> elementList = getDriver().findElements(listElements);
+
+        return isListElementsEquals(elementList, order);
     }
 }

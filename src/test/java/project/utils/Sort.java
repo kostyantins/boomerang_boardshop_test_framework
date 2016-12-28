@@ -3,6 +3,7 @@ package project.utils;
 import com.google.common.collect.Ordering;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import project.enums.OrderBrand;
 import project.enums.OrderLine;
 
 import java.util.ArrayList;
@@ -10,7 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static project.enums.OrderBrand.SP;
 import static project.enums.OrderLine.DESCENDANT;
+import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.Condition.*;
 
 public final class Sort {
 
@@ -55,5 +59,25 @@ public final class Sort {
                     .natural()
                     .isOrdered(gridsColumnDoubleValues);
         }
+    }
+
+    public static final boolean isListElementsContains(final List<WebElement> elementsList, final String order) {
+
+        for (WebElement element : elementsList) {
+            if (element.getText().contains(order)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static final boolean isListElementsEquals(final List<WebElement> elementsList, final String order) {
+
+        for (WebElement element : elementsList) {
+            if (element.getText().equals(order)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

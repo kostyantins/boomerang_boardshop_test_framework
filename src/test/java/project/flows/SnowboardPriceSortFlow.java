@@ -5,10 +5,8 @@ import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 
-import static java.awt.SystemColor.window;
-import static jdk.nashorn.internal.objects.NativeFunction.function;
+import static project.flows.CapitaFantasySearchFlow.SNOWBOARDING_DESK_LINK;
 import static project.utils.WebDriverFactory.getDriver;
 
 @Setter
@@ -22,8 +20,8 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
     public static final By MAX_PRICE_INPUT_FIELD = By.id("max_price");
     public static final By MIN_PRICE_RESULT = By.xpath("(//*[@id='woocommerce_price_filter-7']//span)[3]");
     public static final By MAX_PRICE_RESULT = By.xpath("(//*[@id='woocommerce_price_filter-7']//span)[4]");
-    public static final String MIN_PRICE = "5000";
-    public static final String MAX_PRICE = "10000";
+    public static final String MIN_PRICE = "5000 грн.";
+    public static final String MAX_PRICE = "10000 грн.";
 
     private By goToSnowboardingPage;
     private By fillMinPrice;
@@ -31,14 +29,17 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
 
     public static interface GoToSnowboardingPageStep {
         FillMinPriceStep goToSnowboardingPage(By goToSnowboardingPage);
+        FillMinPriceStep goToSnowboardingPage();
     }
 
     public static interface FillMinPriceStep {
         FillMaxPriceStep fillMinPrice(By fillMinPrice);
+        FillMaxPriceStep fillMinPrice();
     }
 
     public static interface FillMaxPriceStep {
         BuildStep fillMaxPrice(By fillMaxPrice);
+        BuildStep fillMaxPrice();
     }
 
     public static interface BuildStep {
@@ -46,7 +47,7 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
     }
 
 
-    public static class Builder implements GoToSnowboardingPageStep, FillMinPriceStep, FillMaxPriceStep, BuildStep {
+    public static class Builder implements GoToSnowboardingPageStep, FillMinPriceStep, FillMaxPriceStep, BuildStep{
         private By goToSnowboardingPage;
         private By fillMinPrice;
         private By fillMaxPrice;
@@ -64,6 +65,14 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
             this.goToSnowboardingPage = snowboardingLink;
 
             clickTo(snowboardingLink);
+
+            return this;
+        }
+
+        @Override
+        public FillMinPriceStep goToSnowboardingPage() {
+
+            clickTo(SNOWBOARDING_DESK_LINK);
 
             return this;
         }
@@ -87,11 +96,43 @@ public final class SnowboardPriceSortFlow extends AbstractFlow {
         }
 
         @Override
+        public FillMaxPriceStep fillMinPrice() {
+
+            final WebElement element = getDriver().findElement(MIN_PRICE_INPUT_FIELD);
+
+            ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('min_price').style='display: inline';");
+
+            element.clear();
+
+            element.sendKeys(MIN_PRICE);
+
+            element.submit();
+
+            return this;
+        }
+
+        @Override
         public BuildStep fillMaxPrice(By maxPriceInput) {
 
             this.fillMaxPrice = maxPriceInput;
 
             final WebElement element = getDriver().findElement(maxPriceInput);
+
+            ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('max_price').style='display: inline';");
+
+            element.clear();
+
+            element.sendKeys(MAX_PRICE);
+
+            element.submit();
+
+            return this;
+        }
+
+        @Override
+        public BuildStep fillMaxPrice() {
+
+            final WebElement element = getDriver().findElement(MAX_PRICE_INPUT_FIELD);
 
             ((JavascriptExecutor) getDriver()).executeScript("document.getElementById('max_price').style='display: inline';");
 

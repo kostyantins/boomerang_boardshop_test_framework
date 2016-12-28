@@ -3,56 +3,61 @@ package project.flows;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
+import org.openqa.selenium.interactions.Actions;
 import project.utils.Wait;
 
-import static org.testng.Assert.assertTrue;
+import java.util.concurrent.TimeUnit;
+
 import static project.utils.WebDriverFactory.getDriver;
 
 abstract class AbstractFlow {
 
-    static void isElementDisplayed(final By elementToCheck) {
-
-        final WebElement webElement = getDriver().findElement(elementToCheck);
-
-        assertTrue(webElement.isDisplayed(), "Element " + elementToCheck + " should be displayed");
-    }
-
-    static void isElementEquals(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
-
-        Wait.getPresentElement(checkIfCapitaFantasy);
-
-        final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
-
-        Assert.assertEquals(webElement.getText(), textCapitaFantasy,
-                "Text " + textCapitaFantasy + " should be equals with " + webElement.getText());
-    }
-
-    static void isElementContains(final By checkIfCapitaFantasy, final String textCapitaFantasy) {
-
-        Wait.getPresentElement(checkIfCapitaFantasy);
-
-        final WebElement webElement = getDriver().findElement(checkIfCapitaFantasy);
-
-        Assert.assertTrue(webElement.getText().contains(textCapitaFantasy),
-                "Text " + textCapitaFantasy + " should contains " + webElement.getText());
-    }
-
     static void clickTo(final By elementToClick) {
 
-        Wait.getClickableElement(elementToClick);
+        final WebElement element = Wait.getClickableElement(elementToClick);
 
-        getDriver()
+        element
                 .findElement(elementToClick)
                 .click();
     }
 
     static void clear(final By fieldToClear) {
 
-
         getDriver()
                 .findElement(fieldToClear)
                 .clear();
+    }
+
+    static void submit(final By elementToSubmit) {
+
+        getDriver()
+                .findElement(elementToSubmit)
+                .submit();
+    }
+
+    static void refresh() {
+
+        getDriver()
+                .navigate()
+                .refresh();
+    }
+
+    static void waitTilPageLoaded() {
+
+        getDriver()
+                .manage()
+                .timeouts()
+                .pageLoadTimeout(30, TimeUnit.SECONDS);
+    }
+
+    static void moveToElement(final By elementToMove) {
+
+
+        final Actions actions = new Actions(getDriver());
+
+        actions
+                .moveToElement(getDriver().findElement(elementToMove))
+                .perform();
     }
 
     static void fillInputAs(final String textToFill, final By input) {
@@ -72,4 +77,5 @@ abstract class AbstractFlow {
                 .findElement(element)
                 .sendKeys(Keys.ENTER);
     }
+
 }
