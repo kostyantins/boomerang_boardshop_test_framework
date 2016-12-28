@@ -1,6 +1,5 @@
 package project.utils;
 
-import lombok.Getter;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,8 +10,6 @@ import project.enums.Browsers;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-
-//TODO Thread Local fo static driver
 
 public class WebDriverFactory {
 
@@ -43,17 +40,30 @@ public class WebDriverFactory {
 
             if (isRemote) {
 
-                capabilities
-                        .setPlatform(Platform.extractFromSysProperty(platform));
+                driver = new ThreadLocal<WebDriver>() {
+                    @Override
+                    protected WebDriver initialValue() {
 
-                capabilities
-                        .setBrowserName(String.valueOf(browser));
+                        capabilities
+                                .setPlatform(Platform.extractFromSysProperty(platform));
 
-                capabilities
-                        .setVersion(String.valueOf(version));
+                        capabilities
+                                .setBrowserName(String.valueOf(browser));
 
-                //   driver = new RemoteWebDriver(new URL(remoteWebDriverUrl), capabilities);
+                        capabilities
+                                .setVersion(String.valueOf(version));
 
+                        //   driver = new RemoteWebDriver(new URL(remoteWebDriverUrl), capabilities);
+                        RemoteWebDriver remoteWebDriver = null;
+
+                        try {
+                            remoteWebDriver = new RemoteWebDriver(new URL(remoteWebDriverUrl), capabilities);
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        return remoteWebDriver;
+                    }
+                };
             } else {
 
                 if ("default".equals(browser)) {
