@@ -40,6 +40,7 @@ oms_test_framework.iml
 .idea/
 target/
 test-output/
+build/
 
 # JIRA plugin
 atlassian-ide-plugin.xml
@@ -52,3 +53,4 @@ fabric.properties
 
 # Ignore Mac DS_Store files
 .DS_Store
+

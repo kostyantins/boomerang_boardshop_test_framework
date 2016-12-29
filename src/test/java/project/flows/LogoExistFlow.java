@@ -11,5 +11,5 @@ public final class LogoExistFlow extends AbstractFlow {
 
     private LogoExistFlow(){};
 
-    public static final By LOGO = By.xpath(".//*[@id='masthead']//img[@alt='Boomerang Boardshop'][1]");
+    public static final By LOGO = By.xpath("//*[@id='masthead']//img[@alt='Boomerang Boardshop'][1]");
 }
