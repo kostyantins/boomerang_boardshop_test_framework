@@ -5,12 +5,13 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import project.utils.Wait;
+import ru.yandex.qatools.htmlelements.element.HtmlElement;
 
 import java.util.concurrent.TimeUnit;
 
 import static project.utils.WebDriverFactory.getDriver;
 
-abstract class AbstractFlow {
+abstract class AbstractFlow extends HtmlElement {
 
     static void clickTo(final By elementToClick) {
 

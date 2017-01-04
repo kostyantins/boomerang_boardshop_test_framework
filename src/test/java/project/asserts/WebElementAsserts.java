@@ -52,6 +52,20 @@ public final class WebElementAsserts {
     }
 
     @Step
+    public final WebElementAsserts isLogIn() {
+
+        isNotNull();
+
+        final SelenideElement webElement = $(actual);
+
+        if (!webElement.isDisplayed()) {
+
+            Assert.fail("Element {" + actual + "} should be displayed !");
+        }
+        return this;
+    }
+
+    @Step
     public final WebElementAsserts textContains(final String elementsText) {
 
         isNotNull();

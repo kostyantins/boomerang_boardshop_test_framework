@@ -201,6 +201,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>ru.yandex.qatools.htmlelements</groupId>
+            <artifactId>htmlelements-java</artifactId>
+            <version>1.17</version>
+        </dependency>
+
     </dependencies>
 
 </project>
